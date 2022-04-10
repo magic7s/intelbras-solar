@@ -1,0 +1,12 @@
+{
+  "domain": "intelbras_solar",
+  "name": "Intelbras Solar",
+  "documentation": "https://github.com/magic7s/intelbras-solar",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/magic7s/intelbras-solar/issues",
+  "version": "0.0.0",
+  "config_flow": true,
+  "codeowners": [
+    "@magic7s"
+  ]
+}
