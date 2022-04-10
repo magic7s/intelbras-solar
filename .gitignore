@@ -1,2 +1,7 @@
-login.py
 __pycache__
+pythonenv*
+venv
+.venv
+.coverage
+.idea
+login.py
