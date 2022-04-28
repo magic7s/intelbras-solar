@@ -14,16 +14,15 @@ ICON = "mdi:format-quote-close"
 BINARY_SENSOR_DEVICE_CLASS = "connectivity"
 
 # Platforms
-BINARY_SENSOR = "binary_sensor"
 SENSOR = "sensor"
-SWITCH = "switch"
-PLATFORMS = [BINARY_SENSOR, SENSOR, SWITCH]
+PLATFORMS = [SENSOR]
 
 
 # Configuration and options
 CONF_ENABLED = "enabled"
 CONF_USERNAME = "username"
 CONF_PASSWORD = "password"
+BASE_URL = "http://solar-monitoramento.intelbras.com.br/"
 
 # Defaults
 DEFAULT_NAME = DOMAIN
@@ -33,7 +32,7 @@ STARTUP_MESSAGE = f"""
 -------------------------------------------------------------------
 {NAME}
 Version: {VERSION}
-This is a custom integration!
+This integration is to access Intelbras Solar statistics.
 If you have any issues with this you need to open an issue here:
 {ISSUE_URL}
 -------------------------------------------------------------------
