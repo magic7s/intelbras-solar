@@ -1,30 +1,29 @@
-"""Sensor platform for integration_blueprint."""
-from homeassistant.components.sensor import SensorEntity
+"""Platform for sensor integration."""
+from __future__ import annotations
 
-from .const import DEFAULT_NAME, DOMAIN, ICON, SENSOR
-from .entity import IntegrationBlueprintEntity
+from homeassistant.const import CONF_USERNAME, CONF_PASSWORD
+from homeassistant.core import HomeAssistant
+from homeassistant.helpers.entity_platform import AddEntitiesCallback
+from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
+
+from .const import DOMAIN
+
+from .intelbras import IntelbrasPowerPlant, list_of_plants
 
 
-async def async_setup_entry(hass, entry, async_add_devices):
-    """Setup sensor platform."""
-    coordinator = hass.data[DOMAIN][entry.entry_id]
-    async_add_devices([IntegrationBlueprintSensor(coordinator, entry)])
-
-
-class IntegrationBlueprintSensor(IntegrationBlueprintEntity, SensorEntity):
-    """integration_blueprint Sensor class."""
-
-    @property
-    def name(self):
-        """Return the name of the sensor."""
-        return f"{DEFAULT_NAME}_{SENSOR}"
-
-    @property
-    def native_value(self):
-        """Return the native value of the sensor."""
-        return self.coordinator.data.get("body")
-
-    @property
-    def icon(self):
-        """Return the icon of the sensor."""
-        return ICON
+def setup_platform(
+    hass: HomeAssistant,
+    config: ConfigType,
+    add_entities: AddEntitiesCallback,
+    discovery_info: DiscoveryInfoType | None = None,
+) -> None:
+    """Set up the sensor platform."""
+    # We only want this platform to be set up via discovery.
+    if discovery_info is None:
+        return
+    username = hass.data[DOMAIN][CONF_USERNAME]
+    password = hass.data[DOMAIN][CONF_PASSWORD]
+    all_entities = []
+    for plant in list_of_plants(username, password):
+        all_entities.append(IntelbrasPowerPlant(username, password, plant["id"]))
+    add_entities(all_entities)
