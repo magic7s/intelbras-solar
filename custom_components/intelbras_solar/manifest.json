@@ -4,8 +4,8 @@
   "documentation": "https://github.com/magic7s/intelbras-solar",
   "iot_class": "cloud_polling",
   "issue_tracker": "https://github.com/magic7s/intelbras-solar/issues",
-  "version": "0.0.0",
-  "config_flow": true,
+  "version": "0.0.1",
+  "config_flow": false,
   "codeowners": [
     "@magic7s"
   ]
