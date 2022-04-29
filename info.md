@@ -3,6 +3,7 @@
 [![License][license-shield]][license]
 
 [![hacs][hacsbadge]][hacs]
+
 # Intelbras Solar Home Assistant Integration
 
 Add to configuration.yaml
