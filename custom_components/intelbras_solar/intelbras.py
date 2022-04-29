@@ -180,7 +180,7 @@ class IntelbrasDataLogger(SensorEntity):
     def _get_device_information(self) -> dict:
         """Get information about device in the Plant"""
         # POST panel/getDevicesByPlantList
-        # {"result":1,"obj":{"currPage":1,"pages":1,"pageSize":4,"count":1,"ind":1,"datas":[{"pac":"0.7","sn":"ASF4K61A2147066A","plantName":"Ana Paula ","location":"","alias":"ASF4K61A2147066A","status":"1","eToday":"27.6","lastUpdateTime":"2022-04-06 18:14:22","datalogSn":"HPEXXX0421450935","datalogTypeTest":"EPWU 2000","deviceModel":"EGT 4600 PRO","bdcStatus":"0","deviceTypeName":"tlx","eTotal":"699.5","eMonth":"144.7","nominalPower":"4600","accountName":"Ana Paula Julidori","timezone":"-3","timeServer":"2022-04-07 05:14:22","plantId":"25404","deviceType":"0"}],"notPager":false}}
+        # {"result":1,"obj":{"currPage":1,"pages":1,"pageSize":4,"count":1,"ind":1,"datas":[{"pac":"0.7","sn":"ASF4K555557066A","plantName":"My Plant Name ","location":"","alias":"ASF4K555557066A","status":"1","eToday":"27.6","lastUpdateTime":"2022-04-06 18:14:22","datalogSn":"HPEX66666665","datalogTypeTest":"EPWU 2000","deviceModel":"EGT 4600 PRO","bdcStatus":"0","deviceTypeName":"tlx","eTotal":"699.5","eMonth":"144.7","nominalPower":"4600","accountName":"Jane Smith","timezone":"-3","timeServer":"2022-04-07 05:14:22","plantId":"25404","deviceType":"0"}],"notPager":false}}
         response = self.session.post(
             BASE_URL + "panel/getDevicesByPlantList",
             data={"plantId": self.plantId, "currPage": 1},
