@@ -1,5 +1,6 @@
+"""Intelbras Solar Dashboard HASS Integration"""
 from __future__ import annotations
-
+from datetime import timedelta
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.typing import ConfigType
 from homeassistant.const import CONF_USERNAME, CONF_PASSWORD
@@ -7,6 +8,7 @@ from homeassistant.const import CONF_USERNAME, CONF_PASSWORD
 import voluptuous as vol
 import homeassistant.helpers.config_validation as cv
 from .const import DOMAIN
+
 
 CONFIG_SCHEMA = vol.Schema(
     {
@@ -19,6 +21,8 @@ CONFIG_SCHEMA = vol.Schema(
     },
     extra=vol.ALLOW_EXTRA,
 )
+
+SCAN_INTERVAL = timedelta(minutes=5)
 
 
 def setup(hass: HomeAssistant, config: ConfigType) -> bool:

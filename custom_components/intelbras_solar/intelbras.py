@@ -1,9 +1,14 @@
 """Intelbras Solar API"""
-import requests
 import json
-from .const import BASE_URL
-from homeassistant.const import POWER_WATT, ENERGY_KILO_WATT_HOUR, DEVICE_CLASS_ENERGY
+import requests
+
+from homeassistant.const import (
+    ENERGY_WATT_HOUR,
+    ENERGY_KILO_WATT_HOUR,
+    DEVICE_CLASS_ENERGY,
+)
 from homeassistant.components.sensor import SensorEntity, SensorStateClass
+from .const import BASE_URL
 
 
 def list_of_plants(username: str, password: str) -> list:
@@ -48,7 +53,7 @@ def list_of_devices_in_plant(username: str, password: str, plantId: str) -> list
     )
     if response.json().get("result") == 1:
         # POST panel/getDevicesByPlantList
-        # {"result":1,"obj":{"currPage":1,"pages":1,"pageSize":4,"count":1,"ind":1,"datas":[{"pac":"0.7","sn":"ASF4K61A2147066A","plantName":"Ana Paula ","location":"","alias":"ASF4K61A2147066A","status":"1","eToday":"27.6","lastUpdateTime":"2022-04-06 18:14:22","datalogSn":"HPEXXX0421450935","datalogTypeTest":"EPWU 2000","deviceModel":"EGT 4600 PRO","bdcStatus":"0","deviceTypeName":"tlx","eTotal":"699.5","eMonth":"144.7","nominalPower":"4600","accountName":"Ana Paula Julidori","timezone":"-3","timeServer":"2022-04-07 05:14:22","plantId":"25404","deviceType":"0"}],"notPager":false}}
+        # {"result":1,"obj":{"currPage":1,"pages":1,"pageSize":4,"count":1,"ind":1,"datas":[{"pac":"0.7","sn":"ASF4K655557066A","plantName":"My Plant Name","location":"","alias":"ASF45555470555A","status":"1","eToday":"27.6","lastUpdateTime":"2022-04-06 18:14:22","datalogSn":"HPEXX333330935","datalogTypeTest":"EPWU 2000","deviceModel":"EGT 4600 PRO","bdcStatus":"0","deviceTypeName":"tlx","eTotal":"699.5","eMonth":"144.7","nominalPower":"4600","accountName":"Jane Smith","timezone":"-3","timeServer":"2022-04-07 05:14:22","plantId":"222224","deviceType":"0"}],"notPager":false}}
         response = session.post(
             BASE_URL + "panel/getDevicesByPlantList",
             data={"plantId": plantId, "currPage": 1},
@@ -180,7 +185,7 @@ class IntelbrasDataLogger(SensorEntity):
     def _get_device_information(self) -> dict:
         """Get information about device in the Plant"""
         # POST panel/getDevicesByPlantList
-        # {"result":1,"obj":{"currPage":1,"pages":1,"pageSize":4,"count":1,"ind":1,"datas":[{"pac":"0.7","sn":"ASF4K555557066A","plantName":"My Plant Name ","location":"","alias":"ASF4K555557066A","status":"1","eToday":"27.6","lastUpdateTime":"2022-04-06 18:14:22","datalogSn":"HPEX66666665","datalogTypeTest":"EPWU 2000","deviceModel":"EGT 4600 PRO","bdcStatus":"0","deviceTypeName":"tlx","eTotal":"699.5","eMonth":"144.7","nominalPower":"4600","accountName":"Jane Smith","timezone":"-3","timeServer":"2022-04-07 05:14:22","plantId":"25404","deviceType":"0"}],"notPager":false}}
+        # {"result":1,"obj":{"currPage":1,"pages":1,"pageSize":4,"count":1,"ind":1,"datas":[{"pac":"0.7","sn":"ASF4K555557066A","plantName":"My Plant Name ","location":"","alias":"ASF4K555557066A","status":"1","eToday":"27.6","lastUpdateTime":"2022-04-06 18:14:22","datalogSn":"HPEX66666665","datalogTypeTest":"EPWU 2000","deviceModel":"EGT 4600 PRO","bdcStatus":"0","deviceTypeName":"tlx","eTotal":"699.5","eMonth":"144.7","nominalPower":"4600","accountName":"Jane Smith","timezone":"-3","timeServer":"2022-04-07 05:14:22","plantId":"22222","deviceType":"0"}],"notPager":false}}
         response = self.session.post(
             BASE_URL + "panel/getDevicesByPlantList",
             data={"plantId": self.plantId, "currPage": 1},
@@ -208,7 +213,7 @@ class IntelbrasDataLogger(SensorEntity):
     @property
     def unit_of_measurement(self) -> str:
         """Return the unit of measurement."""
-        return POWER_WATT
+        return ENERGY_WATT_HOUR
 
     @property
     def device_class(self) -> str:
