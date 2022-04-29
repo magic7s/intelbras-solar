@@ -8,7 +8,12 @@ from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
 from .const import DOMAIN
 
-from .intelbras import IntelbrasPowerPlant, list_of_plants
+from .intelbras import (
+    IntelbrasPowerPlant,
+    IntelbrasDataLogger,
+    list_of_plants,
+    list_of_devices_in_plant,
+)
 
 
 def setup_platform(
@@ -26,4 +31,8 @@ def setup_platform(
     all_entities = []
     for plant in list_of_plants(username, password):
         all_entities.append(IntelbrasPowerPlant(username, password, plant["id"]))
+        for device in list_of_devices_in_plant(username, password, plant["id"]):
+            all_entities.append(
+                IntelbrasDataLogger(username, password, device["plantId"], device["sn"])
+            )
     add_entities(all_entities)
