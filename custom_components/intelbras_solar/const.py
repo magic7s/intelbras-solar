@@ -3,7 +3,7 @@
 NAME = "Intelbras Solar"
 DOMAIN = "intelbras_solar"
 DOMAIN_DATA = f"{DOMAIN}_data"
-VERSION = "0.0.1"
+VERSION = "0.0.3"
 ATTRIBUTION = ""
 ISSUE_URL = "https://github.com/magic7s/intelbras-solar/issues"
 

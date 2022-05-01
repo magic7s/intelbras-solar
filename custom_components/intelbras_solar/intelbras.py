@@ -5,7 +5,9 @@ import requests
 from homeassistant.const import (
     ENERGY_WATT_HOUR,
     ENERGY_KILO_WATT_HOUR,
+    POWER_WATT,
     DEVICE_CLASS_ENERGY,
+    DEVICE_CLASS_POWER,
 )
 from homeassistant.components.sensor import SensorEntity, SensorStateClass
 from .const import BASE_URL
@@ -213,12 +215,12 @@ class IntelbrasDataLogger(SensorEntity):
     @property
     def unit_of_measurement(self) -> str:
         """Return the unit of measurement."""
-        return ENERGY_WATT_HOUR
+        return POWER_WATT
 
     @property
     def device_class(self) -> str:
         """Return the class of device."""
-        return DEVICE_CLASS_ENERGY
+        return DEVICE_CLASS_POWER
 
     @property
     def state_class(self) -> str:
