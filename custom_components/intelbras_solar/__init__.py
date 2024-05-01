@@ -26,14 +26,14 @@ CONFIG_SCHEMA = vol.Schema(
 SCAN_INTERVAL = timedelta(minutes=5)
 
 
-def setup(hass: HomeAssistant, config: ConfigType) -> bool:
-    """Your controller/hub specific code."""
-    # Data that you want to share with your platforms
-    hass.data[DOMAIN] = {
-        "temperature": 23,
-        CONF_USERNAME: config[DOMAIN][CONF_USERNAME],
-        CONF_PASSWORD: config[DOMAIN][CONF_PASSWORD],
-    }
-    hass.helpers.discovery.load_platform("sensor", DOMAIN, {}, config)
+# def setup(hass: HomeAssistant, config: ConfigType) -> bool:
+#     """Your controller/hub specific code."""
+#     # Data that you want to share with your platforms
+#     hass.data[DOMAIN] = {
+#         "temperature": 23,
+#         CONF_USERNAME: config[DOMAIN][CONF_USERNAME],
+#         CONF_PASSWORD: config[DOMAIN][CONF_PASSWORD],
+#     }
+#     hass.helpers.discovery.load_platform("sensor", DOMAIN, {}, config)
 
-    return True
+#     return True
