@@ -3,11 +3,11 @@ import json
 import requests
 
 from homeassistant.const import (
-    ENERGY_WATT_HOUR,
-    ENERGY_KILO_WATT_HOUR,
-    POWER_WATT,
-    DEVICE_CLASS_ENERGY,
-    DEVICE_CLASS_POWER,
+    UnitOfEnergy,
+    UnitOfPower,
+)
+from homeassistant.components.sensor.const import (
+    SensorDeviceClass,
 )
 from homeassistant.components.sensor import SensorEntity, SensorStateClass
 from .const import BASE_URL
@@ -127,12 +127,12 @@ class IntelbrasPowerPlant(SensorEntity):
     @property
     def unit_of_measurement(self) -> str:
         """Return the unit of measurement."""
-        return ENERGY_KILO_WATT_HOUR
+        return UnitOfEnergy.KILO_WATT_HOUR
 
     @property
     def device_class(self) -> str:
         """Return the class of device."""
-        return DEVICE_CLASS_ENERGY
+        return SensorDeviceClass.ENERGY
 
     @property
     def state_class(self) -> str:
@@ -215,12 +215,12 @@ class IntelbrasDataLogger(SensorEntity):
     @property
     def unit_of_measurement(self) -> str:
         """Return the unit of measurement."""
-        return POWER_WATT
+        return UnitOfPower.WATT
 
     @property
     def device_class(self) -> str:
         """Return the class of device."""
-        return DEVICE_CLASS_POWER
+        return SensorDeviceClass.POWER
 
     @property
     def state_class(self) -> str:
