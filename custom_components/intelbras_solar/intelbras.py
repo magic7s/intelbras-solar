@@ -1,4 +1,5 @@
 """Intelbras Solar API"""
+
 import json
 import requests
 

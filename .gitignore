@@ -4,6 +4,8 @@ venv
 .venv
 .coverage
 .idea
+!config/configuration.yaml
+config/*
 */secrets.yaml
 main.py
 login.py
