@@ -9,6 +9,3 @@ config/*
 */secrets.yaml
 main.py
 login.py
-!.devcontainer/configuration.yaml
-!.devcontainer/devcontainer.json
-.devcontainer/*
