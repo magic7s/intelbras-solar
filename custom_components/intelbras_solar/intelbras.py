@@ -1,16 +1,17 @@
 """Intelbras Solar API"""
 
 import json
-import requests
 
+import requests
+from homeassistant.components.sensor import SensorEntity, SensorStateClass
+from homeassistant.components.sensor.const import (
+    SensorDeviceClass,
+)
 from homeassistant.const import (
     UnitOfEnergy,
     UnitOfPower,
 )
-from homeassistant.components.sensor.const import (
-    SensorDeviceClass,
-)
-from homeassistant.components.sensor import SensorEntity, SensorStateClass
+
 from .const import BASE_URL
 
 

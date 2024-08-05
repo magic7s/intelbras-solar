@@ -2,18 +2,17 @@
 
 from __future__ import annotations
 
-from homeassistant.const import CONF_USERNAME, CONF_PASSWORD
+from homeassistant.const import CONF_PASSWORD, CONF_USERNAME
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
 from .const import DOMAIN
-
 from .intelbras import (
-    IntelbrasPowerPlant,
     IntelbrasDataLogger,
-    list_of_plants,
+    IntelbrasPowerPlant,
     list_of_devices_in_plant,
+    list_of_plants,
 )
 
 
