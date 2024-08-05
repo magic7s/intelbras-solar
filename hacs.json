@@ -1,3 +1,4 @@
 {
-    "name": "Intelbras Solar"
+    "name": "Intelbras Solar",
+    "homeassistant": "2024.6.0"
 }
