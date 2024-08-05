@@ -22,7 +22,7 @@ PLATFORMS = [SENSOR]
 # Configuration and options
 CONF_ENABLED = "enabled"
 CONF_USERNAME = "username"
-CONF_PASSWORD = "password"
+CONF_PASSWORD = "password"  # noqa: S105
 BASE_URL = "http://solar-monitoramento.intelbras.com.br/"
 
 # Defaults

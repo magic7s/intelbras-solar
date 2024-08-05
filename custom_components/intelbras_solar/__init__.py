@@ -1,14 +1,18 @@
-"""Intelbras Solar Dashboard HASS Integration"""
+"""Intelbras Solar Dashboard HASS Integration."""
 
 from __future__ import annotations
 
 from datetime import timedelta
+from typing import TYPE_CHECKING
 
 import homeassistant.helpers.config_validation as cv
 import voluptuous as vol
 from homeassistant.const import CONF_PASSWORD, CONF_USERNAME
-from homeassistant.core import HomeAssistant
-from homeassistant.helpers.typing import ConfigType
+from homeassistant.helpers import discovery
+
+if TYPE_CHECKING:
+    from homeassistant.core import HomeAssistant
+    from homeassistant.helpers.typing import ConfigType
 
 from .const import DOMAIN
 
@@ -26,6 +30,7 @@ CONFIG_SCHEMA = vol.Schema(
 
 SCAN_INTERVAL = timedelta(minutes=5)
 
+
 def setup(hass: HomeAssistant, config: ConfigType) -> bool:
     """Your controller/hub specific code."""
     # Data that you want to share with your platforms
@@ -33,6 +38,6 @@ def setup(hass: HomeAssistant, config: ConfigType) -> bool:
         CONF_USERNAME: config[DOMAIN][CONF_USERNAME],
         CONF_PASSWORD: config[DOMAIN][CONF_PASSWORD],
     }
-    hass.helpers.discovery.load_platform("sensor", DOMAIN, {}, config)
+    discovery.load_platform(hass, "sensor", DOMAIN, {}, config)
 
     return True
