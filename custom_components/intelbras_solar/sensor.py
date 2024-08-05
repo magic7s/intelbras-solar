@@ -2,24 +2,29 @@
 
 from __future__ import annotations
 
-from homeassistant.const import CONF_USERNAME, CONF_PASSWORD
+from typing import TYPE_CHECKING
+
+from homeassistant.const import CONF_PASSWORD, CONF_USERNAME
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers.entity_platform import AddEntitiesCallback
-from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
+
+if TYPE_CHECKING:
+    from homeassistant.core import HomeAssistant
+    from homeassistant.helpers.entity_platform import AddEntitiesCallback
+    from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
+
 
 from .const import DOMAIN
-
 from .intelbras import (
-    IntelbrasPowerPlant,
     IntelbrasDataLogger,
-    list_of_plants,
+    IntelbrasPowerPlant,
     list_of_devices_in_plant,
+    list_of_plants,
 )
 
 
 def setup_platform(
     hass: HomeAssistant,
-    config: ConfigType,
+    config: ConfigType,  # noqa: ARG001
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
 ) -> None:
@@ -33,7 +38,7 @@ def setup_platform(
     for plant in list_of_plants(username, password):
         all_entities.append(IntelbrasPowerPlant(username, password, plant["id"]))
         for device in list_of_devices_in_plant(username, password, plant["id"]):
-            all_entities.append(
+            all_entities.append(  # noqa: PERF401
                 IntelbrasDataLogger(username, password, device["plantId"], device["sn"])
             )
     add_entities(all_entities)

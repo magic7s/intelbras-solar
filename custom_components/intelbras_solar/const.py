@@ -4,7 +4,7 @@
 NAME = "Intelbras Solar"
 DOMAIN = "intelbras_solar"
 DOMAIN_DATA = f"{DOMAIN}_data"
-VERSION = "0.0.5"
+VERSION = "0.0.6"
 ATTRIBUTION = ""
 ISSUE_URL = "https://github.com/magic7s/intelbras-solar/issues"
 
@@ -22,7 +22,7 @@ PLATFORMS = [SENSOR]
 # Configuration and options
 CONF_ENABLED = "enabled"
 CONF_USERNAME = "username"
-CONF_PASSWORD = "password"
+CONF_PASSWORD = "password"  # noqa: S105
 BASE_URL = "http://solar-monitoramento.intelbras.com.br/"
 
 # Defaults
