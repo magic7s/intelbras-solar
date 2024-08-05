@@ -10,7 +10,7 @@ from homeassistant.core import HomeAssistant
 if TYPE_CHECKING:
     from homeassistant.core import HomeAssistant
     from homeassistant.helpers.entity_platform import AddEntitiesCallback
-    from homeassistant.helpers.typing import DiscoveryInfoType
+    from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
 
 from .const import DOMAIN
@@ -24,6 +24,7 @@ from .intelbras import (
 
 def setup_platform(
     hass: HomeAssistant,
+    config: ConfigType,  # noqa: ARG001
     add_entities: AddEntitiesCallback,
     discovery_info: DiscoveryInfoType | None = None,
 ) -> None:

@@ -38,6 +38,12 @@ def setup(hass: HomeAssistant, config: ConfigType) -> bool:
         CONF_USERNAME: config[DOMAIN][CONF_USERNAME],
         CONF_PASSWORD: config[DOMAIN][CONF_PASSWORD],
     }
-    discovery.load_platform(hass, "sensor", DOMAIN, {}, config)
+    discovery.load_platform(
+        hass=hass,
+        component="sensor",
+        platform=DOMAIN,
+        discovered={},
+        hass_config=config,
+    )
 
     return True

@@ -37,7 +37,7 @@ def list_of_plants(username: str, password: str) -> list:
         # POST /index/getPlantListTitle
         # [{"id":"2222","timezone":"-3","plantName":"My Plant Name"}] # noqa: ERA001
         response = session.post(BASE_URL + "index/getPlantListTitle")
-        return [response.json()]
+        return response.json()
     raise IntelbrasSolarApiClientError(
         response.text,
     )
