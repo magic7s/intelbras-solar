@@ -15,9 +15,12 @@ from homeassistant.const import (
 from .const import BASE_URL
 
 
+class IntelbrasSolarApiClientError(Exception):
+    """Exception to indicate a general API error."""
+
+
 def list_of_plants(username: str, password: str) -> list:
     """Get List of Plants from a login."""
-    plants = []
     # POST /login
     # {"result":1}  # noqa: ERA001
     session = requests.Session()
@@ -34,14 +37,14 @@ def list_of_plants(username: str, password: str) -> list:
         # POST /index/getPlantListTitle
         # [{"id":"2222","timezone":"-3","plantName":"My Plant Name"}] # noqa: ERA001
         response = session.post(BASE_URL + "index/getPlantListTitle")
-        plants = response.json()
-        return plants
-    else:
-        print("ERROR: ", response.text)
-        return None
+        return [response.json()]
+    raise IntelbrasSolarApiClientError(
+        response.text,
+    )
+    return None
 
 
-def list_of_devices_in_plant(username: str, password: str, plantId: str) -> list:
+def list_of_devices_in_plant(username: str, password: str, plantId: str) -> list:  # noqa: N803
     """Get List of Plants from a login."""
     # POST /login
     # {"result":1} # noqa: ERA001
@@ -64,15 +67,16 @@ def list_of_devices_in_plant(username: str, password: str, plantId: str) -> list
         )
         all_devices = json.loads(response.text)
         return all_devices["obj"]["datas"]
-    else:
-        print("ERROR: ", response.text)
-        return None
+    raise IntelbrasSolarApiClientError(
+        response.text,
+    )
+    return None
 
 
 class IntelbrasPowerPlant(SensorEntity):
     """Representation of Power Plant."""
 
-    def __init__(self, username: str, password: str, plantId: str) -> None:
+    def __init__(self, username: str, password: str, plantId: str) -> None:  # noqa: N803
         """Initialize the sensor."""
         self.username = username
         self.password = password
@@ -97,9 +101,10 @@ class IntelbrasPowerPlant(SensorEntity):
         )
         if response.json().get("result") == 1:
             return True
-        else:
-            print("ERROR: ", response.text)
-            return False
+        raise IntelbrasSolarApiClientError(
+            response.text,
+        )
+        return False
 
     def _get_plant_information(self) -> dict:
         """Get information about the Plant."""
@@ -122,7 +127,7 @@ class IntelbrasPowerPlant(SensorEntity):
         return self.plant["id"]
 
     @property
-    def state(self):
+    def state(self) -> None:
         """Return the state of the sensor."""
         return self._state
 
@@ -155,7 +160,11 @@ class IntelbrasDataLogger(SensorEntity):
     """Representation of Power Plant."""
 
     def __init__(
-        self, username: str, password: str, plantId: str, serialnumber: str
+        self,
+        username: str,
+        password: str,
+        plantId: str,  # noqa: N803
+        serialnumber: str,
     ) -> None:
         """Initialize the sensor."""
         self.username = username
@@ -182,9 +191,10 @@ class IntelbrasDataLogger(SensorEntity):
         )
         if response.json().get("result") == 1:
             return True
-        else:
-            print("ERROR: ", response.text)
-            return False
+        raise IntelbrasSolarApiClientError(
+            response.text,
+        )
+        return False
 
     def _get_device_information(self) -> dict:
         """Get information about device in the Plant."""
@@ -194,10 +204,12 @@ class IntelbrasDataLogger(SensorEntity):
             BASE_URL + "panel/getDevicesByPlantList",
             data={"plantId": self.plantId, "currPage": 1},
         )
+        device = {}
         all_devices = json.loads(response.text)
         for device in all_devices["obj"]["datas"]:
             if device["sn"] == self.serialnumber:
                 return device
+        return device
 
     @property
     def name(self) -> str:
@@ -210,7 +222,7 @@ class IntelbrasDataLogger(SensorEntity):
         return self.device["sn"]
 
     @property
-    def state(self):
+    def state(self) -> None:
         """Return the state of the sensor."""
         return self._state
 
