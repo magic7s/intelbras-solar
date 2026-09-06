@@ -1,11 +1,29 @@
 {
   "entity": {
+    "binary_sensor": {
+      "connection": {
+        "default": "mdi:lan-connect",
+        "state": {
+          "off": "mdi:lan-disconnect"
+        }
+      }
+    },
     "sensor": {
-      "instant_power": { "default": "mdi:solar-power" },
-      "energy_today": { "default": "mdi:solar-power-variant" },
-      "energy_month": { "default": "mdi:solar-power-variant" },
-      "energy_total": { "default": "mdi:solar-power-variant" },
-      "last_update": { "default": "mdi:clock-check-outline" }
+      "instant_power": {
+        "default": "mdi:solar-power"
+      },
+      "energy_today": {
+        "default": "mdi:solar-power-variant"
+      },
+      "energy_month": {
+        "default": "mdi:solar-power-variant"
+      },
+      "energy_total": {
+        "default": "mdi:solar-power-variant"
+      },
+      "last_update": {
+        "default": "mdi:clock-check-outline"
+      }
     }
   }
 }

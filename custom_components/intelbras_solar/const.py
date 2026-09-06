@@ -15,7 +15,7 @@ ISSUE_URL: Final = "https://github.com/magic7s/intelbras-solar/issues"
 
 BASE_URL: Final = "http://solar-monitoramento.intelbras.com.br/"
 
-PLATFORMS: Final[list[Platform]] = [Platform.SENSOR]
+PLATFORMS: Final[list[Platform]] = [Platform.BINARY_SENSOR, Platform.SENSOR]
 
 # The portal itself only refreshes inverter data every few minutes, so there is
 # nothing to gain from polling faster than this.

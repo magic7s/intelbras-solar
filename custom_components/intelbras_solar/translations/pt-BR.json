@@ -30,12 +30,27 @@
     }
   },
   "entity": {
+    "binary_sensor": {
+      "connection": {
+        "name": "Conexão"
+      }
+    },
     "sensor": {
-      "instant_power": { "name": "Potência instantânea" },
-      "energy_today": { "name": "Geração hoje" },
-      "energy_month": { "name": "Geração no mês" },
-      "energy_total": { "name": "Geração total" },
-      "last_update": { "name": "Última leitura" }
+      "instant_power": {
+        "name": "Potência instantânea"
+      },
+      "energy_today": {
+        "name": "Geração hoje"
+      },
+      "energy_month": {
+        "name": "Geração no mês"
+      },
+      "energy_total": {
+        "name": "Geração total"
+      },
+      "last_update": {
+        "name": "Última leitura"
+      }
     }
   },
   "issues": {

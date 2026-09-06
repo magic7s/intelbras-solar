@@ -30,12 +30,27 @@
     }
   },
   "entity": {
+    "binary_sensor": {
+      "connection": {
+        "name": "Connection"
+      }
+    },
     "sensor": {
-      "instant_power": { "name": "Instant power" },
-      "energy_today": { "name": "Energy today" },
-      "energy_month": { "name": "Energy this month" },
-      "energy_total": { "name": "Total energy" },
-      "last_update": { "name": "Last reported" }
+      "instant_power": {
+        "name": "Instant power"
+      },
+      "energy_today": {
+        "name": "Energy today"
+      },
+      "energy_month": {
+        "name": "Energy this month"
+      },
+      "energy_total": {
+        "name": "Total energy"
+      },
+      "last_update": {
+        "name": "Last reported"
+      }
     }
   },
   "issues": {

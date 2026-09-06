@@ -36,6 +36,7 @@ linked to its plant:
 | Inverter | Energy this month | kWh | `eMonth`                                    |
 | Inverter | Total energy    | kWh  | `eTotal` of that inverter                    |
 | Inverter | Last reported   | —    | when the portal last heard from the inverter |
+| Inverter | Connection      | —    | off once the portal loses the inverter       |
 
 The plant and instant power sensors keep the unique IDs they had before, so
 entity IDs, history and anything referencing them survive the upgrade.
