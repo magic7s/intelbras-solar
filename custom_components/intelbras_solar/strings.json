@@ -1,0 +1,47 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Intelbras Solar",
+        "description": "Sign in with the account you use on the Intelbras Solar monitoring portal.",
+        "data": {
+          "username": "Username",
+          "password": "Password"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Reauthenticate Intelbras Solar",
+        "description": "The portal rejected the stored credentials for {username}. Enter them again.",
+        "data": {
+          "username": "Username",
+          "password": "Password"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect to the Intelbras Solar portal.",
+      "invalid_auth": "Invalid username or password."
+    },
+    "abort": {
+      "already_configured": "This account is already configured.",
+      "cannot_connect": "Failed to connect to the Intelbras Solar portal.",
+      "invalid_auth": "Invalid username or password.",
+      "reauth_successful": "Reauthentication was successful."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "instant_power": { "name": "Instant power" },
+      "energy_today": { "name": "Energy today" },
+      "energy_month": { "name": "Energy this month" },
+      "energy_total": { "name": "Total energy" },
+      "last_update": { "name": "Last reported" }
+    }
+  },
+  "issues": {
+    "deprecated_yaml": {
+      "title": "YAML configuration of {integration} is deprecated",
+      "description": "{integration} now sets up from the user interface and your YAML configuration has been imported automatically. Remove the `intelbras_solar` block from `configuration.yaml` and restart Home Assistant. See {issue_url} if the import did not work."
+    }
+  }
+}

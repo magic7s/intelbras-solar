@@ -1,0 +1,47 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Intelbras Solar",
+        "description": "Entre com a conta que você usa no portal de monitoramento Intelbras Solar.",
+        "data": {
+          "username": "Usuário",
+          "password": "Senha"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Reautenticar Intelbras Solar",
+        "description": "O portal recusou as credenciais salvas de {username}. Informe-as novamente.",
+        "data": {
+          "username": "Usuário",
+          "password": "Senha"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Não foi possível conectar ao portal Intelbras Solar.",
+      "invalid_auth": "Usuário ou senha inválidos."
+    },
+    "abort": {
+      "already_configured": "Esta conta já está configurada.",
+      "cannot_connect": "Não foi possível conectar ao portal Intelbras Solar.",
+      "invalid_auth": "Usuário ou senha inválidos.",
+      "reauth_successful": "Reautenticação concluída."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "instant_power": { "name": "Potência instantânea" },
+      "energy_today": { "name": "Geração hoje" },
+      "energy_month": { "name": "Geração no mês" },
+      "energy_total": { "name": "Geração total" },
+      "last_update": { "name": "Última leitura" }
+    }
+  },
+  "issues": {
+    "deprecated_yaml": {
+      "title": "A configuração YAML da {integration} está obsoleta",
+      "description": "A {integration} agora é configurada pela interface e sua configuração YAML foi importada automaticamente. Remova o bloco `intelbras_solar` do `configuration.yaml` e reinicie o Home Assistant. Veja {issue_url} se a importação não funcionar."
+    }
+  }
+}

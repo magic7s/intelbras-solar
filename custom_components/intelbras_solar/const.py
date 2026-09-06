@@ -1,40 +1,24 @@
-"""Constants for integration_blueprint."""
+"""Constants for the Intelbras Solar integration."""
 
-# Base component constants
-NAME = "Intelbras Solar"
-DOMAIN = "intelbras_solar"
-DOMAIN_DATA = f"{DOMAIN}_data"
-VERSION = "0.0.6"
-ATTRIBUTION = ""
-ISSUE_URL = "https://github.com/magic7s/intelbras-solar/issues"
+from __future__ import annotations
 
-# Icons
-ICON = "mdi:format-quote-close"
+import logging
+from datetime import timedelta
+from typing import Final
 
-# Device classes
-BINARY_SENSOR_DEVICE_CLASS = "connectivity"
+from homeassistant.const import Platform
 
-# Platforms
-SENSOR = "sensor"
-PLATFORMS = [SENSOR]
+DOMAIN: Final = "intelbras_solar"
+NAME: Final = "Intelbras Solar"
+MANUFACTURER: Final = "Intelbras"
+ISSUE_URL: Final = "https://github.com/magic7s/intelbras-solar/issues"
 
+BASE_URL: Final = "http://solar-monitoramento.intelbras.com.br/"
 
-# Configuration and options
-CONF_ENABLED = "enabled"
-CONF_USERNAME = "username"
-CONF_PASSWORD = "password"  # noqa: S105
-BASE_URL = "http://solar-monitoramento.intelbras.com.br/"
+PLATFORMS: Final[list[Platform]] = [Platform.SENSOR]
 
-# Defaults
-DEFAULT_NAME = DOMAIN
+# The portal itself only refreshes inverter data every few minutes, so there is
+# nothing to gain from polling faster than this.
+SCAN_INTERVAL: Final = timedelta(minutes=5)
 
-
-STARTUP_MESSAGE = f"""
--------------------------------------------------------------------
-{NAME}
-Version: {VERSION}
-This integration is to access Intelbras Solar statistics.
-If you have any issues with this you need to open an issue here:
-{ISSUE_URL}
--------------------------------------------------------------------
-"""
+LOGGER: Final = logging.getLogger(__package__)
