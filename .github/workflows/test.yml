@@ -1,0 +1,38 @@
+name: "Test"
+
+on:
+  push:
+    branches:
+      - "main"
+  pull_request:
+    branches:
+      - "main"
+  workflow_dispatch:
+
+jobs:
+  pytest:
+    name: "Pytest (Python ${{ matrix.python-version }})"
+    runs-on: "ubuntu-latest"
+    strategy:
+      matrix:
+        python-version: ["3.13", "3.14"]
+      fail-fast: false
+
+    steps:
+      - name: "Checkout the repository"
+        uses: "actions/checkout@v4"
+
+      - name: "Set up Python ${{ matrix.python-version }}"
+        uses: "actions/setup-python@v5"
+        with:
+          python-version: "${{ matrix.python-version }}"
+          cache: "pip"
+
+      - name: "Install dependencies"
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install -r requirements.txt -r requirements_test.txt
+
+      - name: "Run pytest"
+        run: |
+          pytest -v --cov=custom_components.intelbras_solar --cov-report=term-missing
