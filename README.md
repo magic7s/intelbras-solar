@@ -42,3 +42,9 @@ entity IDs, history and anything referencing them survive the upgrade.
 
 The portal only refreshes inverter data every few minutes, so the integration
 polls every 5 minutes.
+
+## Brand images
+
+`brand/` carries the icon and logo Home Assistant shows for the integration.
+Since 2026.3 a custom integration serves these itself and they take priority
+over the brands CDN, which no longer accepts custom integration submissions.
