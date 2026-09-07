@@ -1,7 +1,7 @@
 """Fixtures for Intelbras Solar tests."""
 
 from collections.abc import Generator
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import MagicMock, patch
 
 import pytest
 from homeassistant.const import CONF_PASSWORD, CONF_USERNAME
@@ -44,7 +44,7 @@ def auto_enable_custom_integrations(
     enable_custom_integrations: None,
 ) -> Generator[None, None, None]:
     """Enable custom integrations in Home Assistant tests."""
-    yield
+    return
 
 
 @pytest.fixture

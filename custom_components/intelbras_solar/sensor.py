@@ -51,7 +51,10 @@ def _as_timestamp(data: dict[str, Any], key: str) -> datetime | None:
     except ValueError:
         return None
     try:
-        offset = timezone(timedelta(hours=float(data.get("timezone"))))
+        raw_tz = data.get("timezone")
+        if raw_tz is None:
+            raise ValueError
+        offset = timezone(timedelta(hours=float(raw_tz)))
     except (TypeError, ValueError):
         offset = UTC
     return naive.replace(tzinfo=offset)

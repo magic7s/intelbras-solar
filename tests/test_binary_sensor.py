@@ -6,7 +6,7 @@ from homeassistant.core import HomeAssistant
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
 from custom_components.intelbras_solar.binary_sensor import _connected
-from custom_components.intelbras_solar.intelbras import IntelbrasSolarData, Inverter
+from custom_components.intelbras_solar.intelbras import IntelbrasSolarData
 
 
 def test_connected_helper() -> None:
@@ -26,15 +26,9 @@ async def test_binary_sensor_entity_state(
     mock_intelbras_data: IntelbrasSolarData,
 ) -> None:
     """Test inverter binary sensor is set up and changes state."""
-    with (
-        patch(
-            "custom_components.intelbras_solar.IntelbrasSolarApiClient.fetch",
-            return_value=mock_intelbras_data,
-        ),
-        patch(
-            "custom_components.intelbras_solar.coordinator.IntelbrasSolarApiClient.fetch",
-            return_value=mock_intelbras_data,
-        ),
+    with patch(
+        "custom_components.intelbras_solar.IntelbrasSolarApiClient.fetch",
+        return_value=mock_intelbras_data,
     ):
         await hass.config_entries.async_setup(mock_config_entry.entry_id)
         await hass.async_block_till_done()

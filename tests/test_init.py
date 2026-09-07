@@ -8,7 +8,9 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers import issue_registry as ir
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
-from custom_components.intelbras_solar import async_setup, async_setup_entry, async_unload_entry
+from custom_components.intelbras_solar import (
+    async_setup,
+)
 from custom_components.intelbras_solar.const import DOMAIN
 from custom_components.intelbras_solar.intelbras import IntelbrasSolarData
 from tests.conftest import MOCK_PASSWORD, MOCK_USERNAME
@@ -45,15 +47,9 @@ async def test_setup_and_unload_entry(
     mock_intelbras_data: IntelbrasSolarData,
 ) -> None:
     """Test setup and unloading of config entry."""
-    with (
-        patch(
-            "custom_components.intelbras_solar.IntelbrasSolarApiClient.fetch",
-            return_value=mock_intelbras_data,
-        ),
-        patch(
-            "custom_components.intelbras_solar.coordinator.IntelbrasSolarApiClient.fetch",
-            return_value=mock_intelbras_data,
-        ),
+    with patch(
+        "custom_components.intelbras_solar.IntelbrasSolarApiClient.fetch",
+        return_value=mock_intelbras_data,
     ):
         await hass.config_entries.async_setup(mock_config_entry.entry_id)
         await hass.async_block_till_done()
