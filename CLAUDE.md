@@ -42,7 +42,7 @@ entity reads from that single snapshot.
 
 **Device hierarchy.** Plants and inverters are separate devices, inverters
 parented to their plant. `__init__.py::async_setup_entry` registers the plant
-devices *before* forwarding platforms, because `IntelbrasSolarInverterEntity`
+devices _before_ forwarding platforms, because `IntelbrasSolarInverterEntity`
 resolves `via_device_id` by looking the plant up in the device registry — that id
 does not exist until the plant device is registered. Do not move or drop that
 registration loop. (`via_device`, the identifier-tuple form, is deprecated and
@@ -73,6 +73,7 @@ users.
 from there. Don't hardcode a ruff version in a workflow — it silently drifts.
 
 **`.ruff.toml` targets `py314`**, which has two non-obvious effects:
+
 - flake8-type-checking (`TC001`–`TC003`) activates; it is ignored for `tests/**`
   where moving imports into `TYPE_CHECKING` blocks is pure churn.
 - the formatter emits PEP 758 unparenthesized `except TypeError, ValueError:`.
@@ -85,7 +86,7 @@ cleartext on every poll. This is a vendor limitation, not a bug to fix here.
 
 ## Deprecations
 
-Home Assistant reports deprecated API use from *custom* integrations as a logged
+Home Assistant reports deprecated API use from _custom_ integrations as a logged
 `WARNING` (`custom_integration_behavior=LOG`), not an exception — so deprecations
 pass tests silently while appearing in every user's log, often with a message
 telling them to file a bug report here. When touching HA-facing APIs, check the
@@ -93,12 +94,8 @@ captured `WARNING` records rather than trusting a green suite.
 
 ## Testing against the live portal
 
-`pytest-homeassistant-custom-component` blocks sockets *and* patches DNS
+`pytest-homeassistant-custom-component` blocks sockets _and_ patches DNS
 resolution session-wide, so a live test needs all three of: restoring
 `socket.getaddrinfo` from `pytest_homeassistant_custom_component.plugins`,
 `pytest_socket.enable_socket()`, and `socket_allow_hosts([<resolved ip>])` — the
 allowlist is IP-based and defaults to `127.0.0.1` only.
-
-`main.py` and `login.py` are gitignored local scratch files for probing the portal
-by hand; `login.py` holds a `LOGIN` dict. Keep real credentials out of the repo,
-out of tests, and out of committed fixtures.
