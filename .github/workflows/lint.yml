@@ -9,25 +9,42 @@ on:
       - "main"
   workflow_dispatch:
 
+# Home Assistant 2026.9 requires Python >= 3.14.2, so that is the only
+# interpreter this integration is ever run on.
+env:
+  DEFAULT_PYTHON: "3.14"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: "${{ github.workflow }}-${{ github.ref }}"
+  cancel-in-progress: true
+
 jobs:
   ruff:
     name: "Ruff"
     runs-on: "ubuntu-latest"
     steps:
       - name: "Checkout the repository"
-        uses: "actions/checkout@v4"
+        uses: "actions/checkout@v7"
 
       - name: "Set up Python"
-        uses: "actions/setup-python@v5"
+        uses: "actions/setup-python@v7"
         with:
-          python-version: "3.14"
+          python-version: "${{ env.DEFAULT_PYTHON }}"
           cache: "pip"
+          cache-dependency-path: "requirements_test.txt"
 
+      # Installed from requirements_test.txt so the ruff version used in CI can
+      # never drift from the one pinned for local development and Dependabot.
       - name: "Install ruff"
-        run: python3 -m pip install ruff==0.5.6
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install "$(grep -E '^ruff==' requirements_test.txt)"
 
       - name: "Lint"
-        run: python3 -m ruff check .
+        run: python3 -m ruff check . --output-format=github
 
       - name: "Format"
         run: python3 -m ruff format . --check
@@ -37,19 +54,21 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - name: "Checkout the repository"
-        uses: "actions/checkout@v4"
+        uses: "actions/checkout@v7"
 
       - name: "Set up Python"
-        uses: "actions/setup-python@v5"
+        uses: "actions/setup-python@v7"
         with:
-          python-version: "3.14"
+          python-version: "${{ env.DEFAULT_PYTHON }}"
           cache: "pip"
+          cache-dependency-path: |
+            requirements.txt
+            requirements_test.txt
 
       - name: "Install dependencies"
         run: |
           python3 -m pip install --upgrade pip
-          python3 -m pip install -r requirements.txt
-          python3 -m pip install mypy types-requests
+          python3 -m pip install -r requirements.txt -r requirements_test.txt
 
       - name: "Type check with mypy"
         run: python3 -m mypy custom_components/intelbras_solar

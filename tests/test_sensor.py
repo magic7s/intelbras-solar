@@ -1,6 +1,6 @@
 """Test Intelbras Solar sensor entities."""
 
-from datetime import UTC, datetime, timezone
+from datetime import UTC
 from unittest.mock import patch
 
 from homeassistant.core import HomeAssistant
@@ -33,7 +33,9 @@ def test_as_timestamp_helpers() -> None:
     # Test missing timestamp key
     assert _as_timestamp({}, "last") is None
     # Test fallback UTC on invalid timezone
-    ts_no_tz = _as_timestamp({"last": "2026-09-06 12:00:00", "timezone": "invalid"}, "last")
+    ts_no_tz = _as_timestamp(
+        {"last": "2026-09-06 12:00:00", "timezone": "invalid"}, "last"
+    )
     assert ts_no_tz is not None
     assert ts_no_tz.tzinfo == UTC
 
@@ -44,15 +46,9 @@ async def test_sensor_entities_created(
     mock_intelbras_data: IntelbrasSolarData,
 ) -> None:
     """Test sensor entities are created and report states."""
-    with (
-        patch(
-            "custom_components.intelbras_solar.IntelbrasSolarApiClient.fetch",
-            return_value=mock_intelbras_data,
-        ),
-        patch(
-            "custom_components.intelbras_solar.coordinator.IntelbrasSolarApiClient.fetch",
-            return_value=mock_intelbras_data,
-        ),
+    with patch(
+        "custom_components.intelbras_solar.IntelbrasSolarApiClient.fetch",
+        return_value=mock_intelbras_data,
     ):
         await hass.config_entries.async_setup(mock_config_entry.entry_id)
         await hass.async_block_till_done()

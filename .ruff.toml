@@ -1,6 +1,6 @@
 # The contents of this file is based on https://github.com/home-assistant/core/blob/dev/pyproject.toml
 
-target-version = "py313"
+target-version = "py314"
 
 [lint]
 select = [
@@ -8,7 +8,7 @@ select = [
 ]
 
 ignore = [
-    "ANN101", # Missing type annotation for `self` in method
+    "CPY001", # Missing copyright notice at top of file (Home Assistant core ignores this)
     "ANN401", # Dynamically typed expressions (typing.Any) are disallowed
     "D203", # no-blank-line-before-class (incompatible with formatter)
     "D212", # multi-line-summary-first-line (incompatible with formatter)
@@ -24,3 +24,24 @@ keep-runtime-typing = true
 
 [lint.mccabe]
 max-complexity = 25
+
+[lint.per-file-ignores]
+"tests/**" = [
+    "S101",
+    "S105",
+    "PLR2004",
+    "SLF001",
+    "ARG001",
+    "ANN",
+    "D",
+    "PT011",
+    "TRY003",
+    "EM101",
+    "SIM117",
+    "RET504",
+    # py314 target enables flake8-type-checking; moving imports into
+    # TYPE_CHECKING blocks is needless churn in test modules.
+    "TC001",
+    "TC002",
+    "TC003",
+]

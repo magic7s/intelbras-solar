@@ -5,13 +5,17 @@ from unittest.mock import MagicMock, patch
 import pytest
 import requests
 
-from custom_components.intelbras_solar.const import BASE_URL
 from custom_components.intelbras_solar.intelbras import (
     IntelbrasSolarApiClient,
     IntelbrasSolarApiClientError,
     IntelbrasSolarAuthError,
 )
-from tests.conftest import MOCK_INVERTER_DATA, MOCK_PASSWORD, MOCK_PLANT_DATA, MOCK_USERNAME
+from tests.conftest import (
+    MOCK_INVERTER_DATA,
+    MOCK_PASSWORD,
+    MOCK_PLANT_DATA,
+    MOCK_USERNAME,
+)
 
 
 def test_login_success() -> None:
@@ -45,7 +49,9 @@ def test_login_invalid_credentials() -> None:
 def test_post_network_error() -> None:
     """Test network error during POST raises IntelbrasSolarApiClientError."""
     client = IntelbrasSolarApiClient(MOCK_USERNAME, MOCK_PASSWORD)
-    with patch.object(client._session, "post", side_effect=requests.RequestException("Timeout")):
+    with patch.object(
+        client._session, "post", side_effect=requests.RequestException("Timeout")
+    ):
         with pytest.raises(IntelbrasSolarApiClientError):
             client._post("login")
 
@@ -69,7 +75,9 @@ def test_fetch_snapshot_success() -> None:
     client._logged_in = True
 
     with (
-        patch.object(client, "plants", return_value=[{"id": "123", "plantName": "Plant 1"}]),
+        patch.object(
+            client, "plants", return_value=[{"id": "123", "plantName": "Plant 1"}]
+        ),
         patch.object(client, "plant_data", return_value=MOCK_PLANT_DATA),
         patch.object(client, "devices", return_value=[MOCK_INVERTER_DATA]),
     ):
