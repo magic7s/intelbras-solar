@@ -6,6 +6,6 @@
 # Do NOT add separate pytest* pins here -- they will conflict with it.
 pytest-homeassistant-custom-component==0.13.364
 requests-mock>=1.12.1
-mypy>=1.10.0
+mypy>=2.3.1
 types-requests
 ruff==0.16.6
