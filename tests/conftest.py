@@ -42,7 +42,7 @@ MOCK_INVERTER_DATA = {
 @pytest.fixture(autouse=True)
 def auto_enable_custom_integrations(
     enable_custom_integrations: None,
-) -> Generator[None, None, None]:
+) -> Generator[None]:
     """Enable custom integrations in Home Assistant tests."""
     return
 
@@ -85,7 +85,7 @@ def mock_intelbras_data() -> IntelbrasSolarData:
 @pytest.fixture
 def mock_api_client(
     mock_intelbras_data: IntelbrasSolarData,
-) -> Generator[MagicMock, None, None]:
+) -> Generator[MagicMock]:
     """Mock the IntelbrasSolarApiClient."""
     with patch(
         "custom_components.intelbras_solar.IntelbrasSolarApiClient",

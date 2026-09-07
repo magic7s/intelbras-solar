@@ -74,7 +74,11 @@ class IntelbrasSolarInverterEntity(
             model=inverter.model or NAME,
             name=inverter.name,
             serial_number=serial_number,
-            via_device=plant_identifier(inverter.plant_id),
+            # `via_device` is deprecated in favour of `via_device_id` and is
+            # removed in HA 2027.8.0. Migrating means resolving the plant's
+            # device registry id here, which requires the plant device to be
+            # registered first; the tuple form defers that resolution for us.
+            via_device=plant_identifier(inverter.plant_id),  # type: ignore[typeddict-unknown-key]
             configuration_url="http://solar-monitoramento.intelbras.com.br/",
         )
 

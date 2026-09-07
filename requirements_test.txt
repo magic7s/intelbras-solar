@@ -1,7 +1,11 @@
-pytest>=8.0.0
-pytest-asyncio>=0.23.0
-pytest-cov>=5.0.0
-pytest-homeassistant-custom-component>=0.13.0
-requests-mock>=1.12.0
+# Development and CI tooling.
+#
+# pytest-homeassistant-custom-component is the source of truth for the test
+# stack: it pins homeassistant, pytest, pytest-asyncio, pytest-cov and coverage
+# to the exact versions the targeted Home Assistant release is tested against.
+# Do NOT add separate pytest* pins here -- they will conflict with it.
+pytest-homeassistant-custom-component==0.13.364
+requests-mock>=1.12.1
 mypy>=1.10.0
 types-requests
+ruff==0.16.6

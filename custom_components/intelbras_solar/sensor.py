@@ -37,7 +37,7 @@ def _as_float(value: Any) -> StateType:
     """Return a portal reading as a float, or None when it is not a number."""
     try:
         return float(value)
-    except (TypeError, ValueError):
+    except TypeError, ValueError:
         return None
 
 
@@ -50,12 +50,10 @@ def _as_timestamp(data: dict[str, Any], key: str) -> datetime | None:
         naive = datetime.strptime(str(raw), TIMESTAMP_FORMAT)  # noqa: DTZ007
     except ValueError:
         return None
+    raw_tz = data.get("timezone")
     try:
-        raw_tz = data.get("timezone")
-        if raw_tz is None:
-            raise ValueError
-        offset = timezone(timedelta(hours=float(raw_tz)))
-    except (TypeError, ValueError):
+        offset = UTC if raw_tz is None else timezone(timedelta(hours=float(raw_tz)))
+    except TypeError, ValueError:
         offset = UTC
     return naive.replace(tzinfo=offset)
 

@@ -5,11 +5,29 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    # Keep routine action bumps to a single PR instead of one per action.
+    groups:
+      github-actions:
+        patterns:
+          - "*"
 
   - package-ecosystem: "pip"
     directory: "/"
     schedule:
       interval: "weekly"
+    groups:
+      python-dependencies:
+        patterns:
+          - "*"
     ignore:
-      # Dependabot should not update Home Assistant as that should match the homeassistant key in hacs.json
+      # Dependabot should not update Home Assistant as that should match the
+      # homeassistant key in hacs.json
       - dependency-name: "homeassistant"
+      # pytest-homeassistant-custom-component pins pytest, pytest-asyncio,
+      # pytest-cov and coverage to exact versions. Independent bumps of those
+      # packages produce an unsatisfiable resolution, so they are not declared
+      # directly and must not be reintroduced by Dependabot.
+      - dependency-name: "pytest"
+      - dependency-name: "pytest-asyncio"
+      - dependency-name: "pytest-cov"
+      - dependency-name: "coverage"

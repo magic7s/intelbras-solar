@@ -9,24 +9,37 @@ on:
       - "main"
   workflow_dispatch:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: "${{ github.workflow }}-${{ github.ref }}"
+  cancel-in-progress: true
+
 jobs:
   pytest:
     name: "Pytest (Python ${{ matrix.python-version }})"
     runs-on: "ubuntu-latest"
     strategy:
       matrix:
-        python-version: ["3.13", "3.14"]
+        # Home Assistant 2026.9 declares Requires-Python >= 3.14.2 and
+        # pytest-homeassistant-custom-component requires >= 3.14, so older
+        # interpreters cannot resolve the test stack at all.
+        python-version: ["3.14"]
       fail-fast: false
 
     steps:
       - name: "Checkout the repository"
-        uses: "actions/checkout@v4"
+        uses: "actions/checkout@v7"
 
       - name: "Set up Python ${{ matrix.python-version }}"
-        uses: "actions/setup-python@v5"
+        uses: "actions/setup-python@v7"
         with:
           python-version: "${{ matrix.python-version }}"
           cache: "pip"
+          cache-dependency-path: |
+            requirements.txt
+            requirements_test.txt
 
       - name: "Install dependencies"
         run: |
@@ -35,4 +48,29 @@ jobs:
 
       - name: "Run pytest"
         run: |
-          pytest -v --cov=custom_components.intelbras_solar --cov-report=term-missing
+          pytest -v \
+            --cov=custom_components.intelbras_solar \
+            --cov-report=term-missing \
+            --cov-report=xml \
+            --junitxml=junit.xml
+
+      - name: "Coverage summary"
+        if: "always()"
+        run: |
+          {
+            echo '### Coverage'
+            echo
+            echo '```'
+            python3 -m coverage report --show-missing
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: "Upload test artifacts"
+        if: "always()"
+        uses: "actions/upload-artifact@v7"
+        with:
+          name: "test-results-py${{ matrix.python-version }}"
+          path: |
+            coverage.xml
+            junit.xml
+          if-no-files-found: "warn"
