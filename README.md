@@ -1,6 +1,6 @@
 # Intelbras Solar Home Assistant Integration
 
-Home Assistant integration for the [Intelbras Solar monitoring portal](http://solar-monitoramento.intelbras.com.br/).
+Home Assistant integration for the [Intelbras Solar monitoring portal](https://solar-monitoramento.intelbras.com.br/).
 
 ## Requirements
 

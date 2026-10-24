@@ -13,7 +13,7 @@ NAME: Final = "Intelbras Solar"
 MANUFACTURER: Final = "Intelbras"
 ISSUE_URL: Final = "https://github.com/magic7s/intelbras-solar/issues"
 
-BASE_URL: Final = "http://solar-monitoramento.intelbras.com.br/"
+BASE_URL: Final = "https://solar-monitoramento.intelbras.com.br/"
 
 PLATFORMS: Final[list[Platform]] = [Platform.BINARY_SENSOR, Platform.SENSOR]
 
