@@ -23,6 +23,7 @@ def test_login_success() -> None:
     client = IntelbrasSolarApiClient(MOCK_USERNAME, MOCK_PASSWORD)
     with patch.object(client._session, "post") as mock_post:
         mock_response = MagicMock()
+        mock_response.is_redirect = False
         mock_response.raise_for_status.return_value = None
         mock_response.json.return_value = {"result": 1}
         mock_post.return_value = mock_response
@@ -37,6 +38,7 @@ def test_login_invalid_credentials() -> None:
     client = IntelbrasSolarApiClient(MOCK_USERNAME, MOCK_PASSWORD)
     with patch.object(client._session, "post") as mock_post:
         mock_response = MagicMock()
+        mock_response.is_redirect = False
         mock_response.raise_for_status.return_value = None
         mock_response.json.return_value = {"result": 0}
         mock_post.return_value = mock_response
@@ -44,6 +46,39 @@ def test_login_invalid_credentials() -> None:
         with pytest.raises(IntelbrasSolarAuthError):
             client.login()
         assert client._logged_in is False
+
+
+def test_post_follows_redirect_as_post() -> None:
+    """Test a 301 to HTTPS is re-sent as a POST, not replayed as a GET."""
+    client = IntelbrasSolarApiClient(MOCK_USERNAME, MOCK_PASSWORD)
+    with patch.object(client._session, "post") as mock_post:
+        redirect = MagicMock(is_redirect=True)
+        redirect.headers = {
+            "Location": "https://solar-monitoramento.intelbras.com.br/login"
+        }
+        final = MagicMock(is_redirect=False)
+        final.json.return_value = {"result": 1}
+        mock_post.side_effect = [redirect, final]
+
+        client.login()
+        assert client._logged_in is True
+        assert mock_post.call_count == 2
+        second = mock_post.call_args_list[1]
+        assert second.args[0] == "https://solar-monitoramento.intelbras.com.br/login"
+        assert second.kwargs["data"]["account"] == MOCK_USERNAME
+
+
+def test_post_refuses_redirect_off_portal() -> None:
+    """Test a redirect to another host is refused, not re-sent the credentials."""
+    client = IntelbrasSolarApiClient(MOCK_USERNAME, MOCK_PASSWORD)
+    with patch.object(client._session, "post") as mock_post:
+        redirect = MagicMock(is_redirect=True)
+        redirect.headers = {"Location": "https://attacker.example/login"}
+        mock_post.return_value = redirect
+
+        with pytest.raises(IntelbrasSolarApiClientError):
+            client.login()
+        mock_post.assert_called_once()
 
 
 def test_post_network_error() -> None:
@@ -61,6 +96,7 @@ def test_post_invalid_json() -> None:
     client = IntelbrasSolarApiClient(MOCK_USERNAME, MOCK_PASSWORD)
     with patch.object(client._session, "post") as mock_post:
         mock_response = MagicMock()
+        mock_response.is_redirect = False
         mock_response.raise_for_status.return_value = None
         mock_response.json.side_effect = ValueError("No JSON")
         mock_post.return_value = mock_response
