@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from typing import Any
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlparse
 
 import requests
 
@@ -74,6 +74,11 @@ class IntelbrasSolarApiClient:
                 # requests would replay a 301/302 as a GET, which returns the
                 # HTML page instead of JSON; re-POST to the new location.
                 url = urljoin(url, response.headers["Location"])
+                # The form data carries the credentials on login, so only
+                # follow redirects that stay on the portal host.
+                if urlparse(url).hostname != urlparse(BASE_URL).hostname:
+                    msg = f"Refusing redirect off the portal from {path}"
+                    raise IntelbrasSolarApiClientError(msg)
                 response = self._session.post(
                     url, data=data or {}, timeout=TIMEOUT, allow_redirects=False
                 )

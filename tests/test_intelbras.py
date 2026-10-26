@@ -68,6 +68,19 @@ def test_post_follows_redirect_as_post() -> None:
         assert second.kwargs["data"]["account"] == MOCK_USERNAME
 
 
+def test_post_refuses_redirect_off_portal() -> None:
+    """Test a redirect to another host is refused, not re-sent the credentials."""
+    client = IntelbrasSolarApiClient(MOCK_USERNAME, MOCK_PASSWORD)
+    with patch.object(client._session, "post") as mock_post:
+        redirect = MagicMock(is_redirect=True)
+        redirect.headers = {"Location": "https://attacker.example/login"}
+        mock_post.return_value = redirect
+
+        with pytest.raises(IntelbrasSolarApiClientError):
+            client.login()
+        mock_post.assert_called_once()
+
+
 def test_post_network_error() -> None:
     """Test network error during POST raises IntelbrasSolarApiClientError."""
     client = IntelbrasSolarApiClient(MOCK_USERNAME, MOCK_PASSWORD)
