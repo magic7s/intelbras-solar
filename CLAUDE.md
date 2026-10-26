@@ -80,9 +80,11 @@ from there. Don't hardcode a ruff version in a workflow — it silently drifts.
   That is valid 3.14+ syntax and `ruff format --check` enforces it — it is not a
   mistake to "fix".
 
-**The portal is HTTP-only.** Port 443 refuses connections and there is no redirect,
-so `BASE_URL` cannot be moved to HTTPS. Credentials therefore cross the network in
-cleartext on every poll. This is a vendor limitation, not a bug to fix here.
+**The portal is HTTPS.** Since October 2026 plain HTTP answers every request with
+`301 Moved Permanently` to the same path on `https://`. `requests` follows a 301 on a
+POST as a GET, so an `http://` `BASE_URL` turns the login into a GET that returns the
+HTML page and fails JSON parsing (`Expecting value: line 5 column 1`). Keep
+`BASE_URL` on HTTPS; credentials no longer cross the network in cleartext.
 
 ## Deprecations
 

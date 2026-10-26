@@ -33,6 +33,20 @@ def test_login_success() -> None:
         mock_post.assert_called_once()
 
 
+def test_login_uses_https() -> None:
+    """Test login posts to the HTTPS portal (plain HTTP 301-redirects POST to GET)."""
+    client = IntelbrasSolarApiClient(MOCK_USERNAME, MOCK_PASSWORD)
+    with patch.object(client._session, "post") as mock_post:
+        mock_response = MagicMock()
+        mock_response.raise_for_status.return_value = None
+        mock_response.json.return_value = {"result": 1}
+        mock_post.return_value = mock_response
+
+        client.login()
+        url = mock_post.call_args.args[0]
+        assert url.startswith("https://solar-monitoramento.intelbras.com.br/")
+
+
 def test_login_invalid_credentials() -> None:
     """Test login failure raises IntelbrasSolarAuthError."""
     client = IntelbrasSolarApiClient(MOCK_USERNAME, MOCK_PASSWORD)
