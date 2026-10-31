@@ -4,8 +4,8 @@
 # stack: it pins homeassistant, pytest, pytest-asyncio, pytest-cov and coverage
 # to the exact versions the targeted Home Assistant release is tested against.
 # Do NOT add separate pytest* pins here -- they will conflict with it.
-pytest-homeassistant-custom-component==0.13.364
+pytest-homeassistant-custom-component==0.13.375
 requests-mock>=1.12.1
-mypy>=2.3.1
+mypy>=2.4.0
 types-requests
-ruff==0.16.6
+ruff==0.17.3
